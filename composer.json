@@ -1,7 +1,7 @@
 {
     "name": "maxalmonte14/magicproperties",
     "description": "A little but powerful package that allows you call getters and setters implicitly in PHP.",
-    "keywords": ["magicproperties", "properties", "getter", "setter"],
+    "keywords": ["magicproperties", "properties", "getter", "setter", "accessor", "mutator", "trait"],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/maxalmonte14/magicproperties/issues",
@@ -21,7 +21,15 @@
             "src/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "files": [
+            "tests/fakes/FakeUser.php" 
+        ]
+    },
+    "require": {
+        "php": "^5.4 || ^7.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^5.7"
     }
 }
