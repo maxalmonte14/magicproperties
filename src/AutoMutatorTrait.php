@@ -23,18 +23,24 @@ trait AutoMutatorTrait
      * @param string $prop
      * @param mixed  $value
      * @throws MagicProperties\Exceptions\InvalidPropertyCallException
+     * @return void
      */
     final public function __set($prop, $value)
     {
-        if (!property_exists(__CLASS__, $prop))
-            throw new InvalidPropertyCallException("You're trying to access to undefined property {$prop}.", 
-            InvalidPropertyCallException::UNDEFINED_PROPERTY);
-
-        if (in_array($prop, $this->settables))
+        if (!property_exists(__CLASS__, $prop)) {
+            throw new InvalidPropertyCallException(
+                "You're trying to access to undefined property {$prop}.", 
+                InvalidPropertyCallException::UNDEFINED_PROPERTY
+            );
+        }
+        if (in_array($prop, $this->settables)) {
             $this->callSetter($prop, $value);
-        else
-            throw new InvalidPropertyCallException("Property {$prop} is not accessible out of the class.", 
-            InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY);
+        } else {
+            throw new InvalidPropertyCallException(
+                "Property {$prop} is not accessible out of the class.", 
+                InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
+            );
+        }
     }
 
     /**
@@ -46,13 +52,14 @@ trait AutoMutatorTrait
      * @param  mixed  $value
      * @return void
      */
-    public function callSetter($prop, $value)
+    private function callSetter($prop, $value)
     {
-        if (method_exists(__CLASS__, toCamelCase($prop, 'set')))
+        if (method_exists(__CLASS__, toCamelCase($prop, 'set'))) {
             call_user_func_array([__CLASS__, toCamelCase($prop, 'set')], [$value]);
-        elseif (method_exists(__CLASS__, toSnakeCase($prop, 'set')))
+        } elseif (method_exists(__CLASS__, toSnakeCase($prop, 'set'))) {
             call_user_func_array([__CLASS__, toSnakeCase($prop, 'set')], [$value]);
-        else
+        } else {
             $this->$prop = $value;
+        }
     }
 }
