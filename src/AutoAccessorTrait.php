@@ -22,18 +22,25 @@ trait AutoAccessorTrait
      *
      * @param string $prop
      * @throws MagicProperties\Exceptions\InvalidPropertyCallException
+     * @return void
      */
     final public function __get($prop)
     {
-        if (!property_exists(__CLASS__, $prop))
-            throw new InvalidPropertyCallException("You're trying to access to undefined property {$prop}.", 
-            InvalidPropertyCallException::UNDEFINED_PROPERTY);
+        if (!property_exists(__CLASS__, $prop)) {
+            throw new InvalidPropertyCallException(
+                "You're trying to access to undefined property {$prop}.", 
+                InvalidPropertyCallException::UNDEFINED_PROPERTY
+            );
+        }
 
-        if (in_array($prop, $this->gettables))
+        if (in_array($prop, $this->gettables)) {
             return $this->callGetter($prop);
+        }
 
-        throw new InvalidPropertyCallException("Property {$prop} is not accessible out of the class.", 
-        InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY);
+        throw new InvalidPropertyCallException(
+            "Property {$prop} is not accessible out of the class.", 
+            InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
+        );
     }
 
     /**
@@ -44,12 +51,14 @@ trait AutoAccessorTrait
      * @param  string $prop
      * @return mixed
      */
-    public function callGetter($prop)
+    private function callGetter($prop)
     {
-        if (method_exists(__CLASS__, toCamelCase($prop, 'get')))
+        if (method_exists(__CLASS__, toCamelCase($prop, 'get'))) {
             return call_user_func([__CLASS__, toCamelCase($prop, 'get')]);
-        elseif (method_exists(__CLASS__, toSnakeCase($prop, 'get')))
+        } elseif (method_exists(__CLASS__, toSnakeCase($prop, 'get'))) {
             return call_user_func([__CLASS__, toSnakeCase($prop, 'get')]);
+        }
+        
         return $this->$prop;
     }
 }
