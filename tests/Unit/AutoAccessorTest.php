@@ -1,6 +1,5 @@
 <?php
 
-use MagicProperties\AutoAccessorTrait;
 use PHPUnit\Framework\TestCase;
 
 class AutoAccessorTest extends TestCase{
@@ -9,24 +8,7 @@ class AutoAccessorTest extends TestCase{
 
     public function setUp()
     {
-        $this->fakeUser = new class('maxalmonte14') {
-            
-            use AutoAccessorTrait;
-        
-            private $username;
-            private $password = 'some_secure_password';
-        
-            public function __construct($username) 
-            {
-                $this->username = $username;
-                $this->gettables = ['username'];
-            }
-        
-            public function getUsername()
-            {
-                return sprintf('Your username is %s', $this->username);
-            }
-        };
+        $this->fakeUser = new FakeUser('maxalmonte14');
     }
 
     /** @test */
@@ -40,7 +22,7 @@ class AutoAccessorTest extends TestCase{
      */
     public function cannotAccessToPrivateNotGettableProperty()
     {
-        $this->expectException(MagicProperties\Exceptions\InvalidPropertyCallException::class);
+        $this->expectException('MagicProperties\Exceptions\InvalidPropertyCallException');
         $this->expectExceptionMessage('Property password is not accessible out of the class.');
         $this->expectExceptionCode(2);
         $this->fakeUser->password;
@@ -51,7 +33,7 @@ class AutoAccessorTest extends TestCase{
      */
     public function cannotAccessToUnexistingProperty()
     {
-        $this->expectException(MagicProperties\Exceptions\InvalidPropertyCallException::class);
+        $this->expectException('MagicProperties\Exceptions\InvalidPropertyCallException');
         $this->expectExceptionMessage("You're trying to access to undefined property nonExistingProperty.");
         $this->expectExceptionCode(1);
         $this->fakeUser->nonExistingProperty;
