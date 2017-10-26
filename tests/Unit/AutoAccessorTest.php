@@ -1,8 +1,12 @@
 <?php
 
+namespace Tests\Unit;
+
+use Tests\Fakes\FakeUser;
 use PHPUnit\Framework\TestCase;
 
-class AutoAccessorTest extends TestCase{
+class AutoAccessorTest extends TestCase
+{
 
     private $fakeUser;
 
@@ -17,7 +21,7 @@ class AutoAccessorTest extends TestCase{
         $this->assertEquals('Your username is maxalmonte14', $this->fakeUser->username);
     }
 
-    /** 
+    /**
      * @test
      */
     public function cannotAccessToPrivateNotGettableProperty()
@@ -28,7 +32,7 @@ class AutoAccessorTest extends TestCase{
         $this->fakeUser->password;
     }
 
-    /** 
+    /**
      * @test
      */
     public function cannotAccessToUnexistingProperty()
@@ -38,5 +42,4 @@ class AutoAccessorTest extends TestCase{
         $this->expectExceptionCode(1);
         $this->fakeUser->nonExistingProperty;
     }
-
 }

@@ -29,7 +29,7 @@ trait AutoMutatorTrait
     {
         if (!property_exists(__CLASS__, $prop)) {
             throw new InvalidPropertyCallException(
-                "You're trying to access to undefined property {$prop}.", 
+                "You're trying to access to undefined property {$prop}.",
                 InvalidPropertyCallException::UNDEFINED_PROPERTY
             );
         }
@@ -37,16 +37,16 @@ trait AutoMutatorTrait
             $this->callSetter($prop, $value);
         } else {
             throw new InvalidPropertyCallException(
-                "Property {$prop} is not accessible out of the class.", 
+                "Property {$prop} is not accessible out of the class.",
                 InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
             );
         }
     }
 
     /**
-     * Call the defined setter for a settable 
-     * property if there's not defined a setter, 
-     * set the value directly 
+     * Call the defined setter for a settable
+     * property if there's not defined a setter,
+     * set the value directly
      *
      * @param  string $prop
      * @param  mixed  $value

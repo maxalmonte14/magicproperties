@@ -28,7 +28,7 @@ trait AutoAccessorTrait
     {
         if (!property_exists(__CLASS__, $prop)) {
             throw new InvalidPropertyCallException(
-                "You're trying to access to undefined property {$prop}.", 
+                "You're trying to access to undefined property {$prop}.",
                 InvalidPropertyCallException::UNDEFINED_PROPERTY
             );
         }
@@ -38,14 +38,14 @@ trait AutoAccessorTrait
         }
 
         throw new InvalidPropertyCallException(
-            "Property {$prop} is not accessible out of the class.", 
+            "Property {$prop} is not accessible out of the class.",
             InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
         );
     }
 
     /**
-     * Call the defined getter for a gettable 
-     * property if there's not defined a getter, 
+     * Call the defined getter for a gettable
+     * property if there's not defined a getter,
      * get the value directly
      *
      * @param  string $prop

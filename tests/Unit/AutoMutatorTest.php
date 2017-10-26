@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests\Unit;
+
+use Tests\Fakes\FakeUser;
 use PHPUnit\Framework\TestCase;
 
-class AutoMutatorTest extends TestCase{
-
+class AutoMutatorTest extends TestCase
+{
     private $fakeUser;
 
     public function setUp()
@@ -18,8 +21,8 @@ class AutoMutatorTest extends TestCase{
         $this->assertEquals('Your username is php_boy', $this->fakeUser->username);
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      */
     public function cannotMutatePrivateNotSettableProperty()
     {
@@ -29,7 +32,7 @@ class AutoMutatorTest extends TestCase{
         $this->fakeUser->password = 'new_password';
     }
 
-    /** 
+    /**
      * @test
      */
     public function cannotMutateAnUnexistingProperty()
