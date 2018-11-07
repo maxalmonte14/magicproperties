@@ -5,60 +5,84 @@ namespace MagicProperties;
 use MagicProperties\Exceptions\InvalidPropertyCallException;
 
 /**
- * Allow access to a getter implicitly
+ * Allows access to a getter method implicitly.
  */
 trait AutoAccessorTrait
 {
     /**
-     * The properties that gonna be resolved
-     * via the __get magic method
+     * The properties that will be resolved
+     * via the __get magic method.
      *
      * @var array
      */
     protected $gettables = [];
 
     /**
-     * Get the value of a gettable property
+     * Gets the value of a gettable property.
      *
-     * @param string $prop
-     * @throws MagicProperties\Exceptions\InvalidPropertyCallException
+     * @param string $property
+     *
+     * @throws \MagicProperties\Exceptions\InvalidPropertyCallException
+     *
      * @return void
      */
-    final public function __get($prop)
+    final public function __get($property)
     {
-        if (!property_exists(__CLASS__, $prop)) {
+        if (!property_exists($this, $property)) {
             throw new InvalidPropertyCallException(
-                "You're trying to access to undefined property {$prop}.",
+                "You're trying to access to anundefined property {$property}.",
                 InvalidPropertyCallException::UNDEFINED_PROPERTY
             );
         }
 
-        if (in_array($prop, $this->gettables)) {
-            return $this->callGetter($prop);
+        if (!in_array($property, $this->gettables) && is_null($getter = $this->getGetterName($property))) {
+            throw new InvalidPropertyCallException(
+                "Property {$property} is not accessible out of the class.",
+                InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
+            );
         }
 
-        throw new InvalidPropertyCallException(
-            "Property {$prop} is not accessible out of the class.",
-            InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
-        );
+        return $this->callGetter($getter, $property);
     }
 
     /**
-     * Call the defined getter for a gettable
+     * Calls the defined getter for a gettable
      * property if there's not defined a getter,
-     * get the value directly
+     * gets the value directly.
      *
-     * @param  string $prop
+     * @param string $getter
+     * @param string $property
+     *
      * @return mixed
      */
-    private function callGetter($prop)
+    private function callGetter($getter, $property)
     {
-        if (method_exists(__CLASS__, toCamelCase($prop, 'get'))) {
-            return call_user_func([__CLASS__, toCamelCase($prop, 'get')]);
-        } elseif (method_exists(__CLASS__, toSnakeCase($prop, 'get'))) {
-            return call_user_func([__CLASS__, toSnakeCase($prop, 'get')]);
+        if (!is_null($getter)) {
+            return call_user_func([$this, $getter], $property);
         }
-        
-        return $this->$prop;
+
+        return $this->$property;
+    }
+
+    /**
+     * Returns the getter name for a
+     * property or null if there is
+     * no defined getter method.
+     *
+     * @param string $property
+     *
+     * @return string|null
+     */
+    private function getGetterName($property)
+    {
+        if (method_exists($this, toCamelCase($property, 'get'))) {
+            return toCamelCase($property, 'get');
+        }
+
+        if (method_exists($this, toSnakeCase($property, 'get'))) {
+            return toSnakeCase($property, 'get');
+        }
+
+        return null;
     }
 }
