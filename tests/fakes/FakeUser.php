@@ -9,14 +9,24 @@ class FakeUser
 {
     use AutoAccessorTrait, AutoMutatorTrait;
 
+    private $password;
+
+    private $token;
+
     private $username;
-    private $password = 'some_secure_password';
 
     public function __construct($username)
     {
         $this->username = $username;
+        $this->token = 'auto_generated_token';
+        $this->password = 'some_secure_password';
         $this->gettables = ['username'];
         $this->settables = ['username'];
+    }
+
+    public function getToken()
+    {
+        return strtoupper($this->token);
     }
 
     public function getUsername()
@@ -24,11 +34,12 @@ class FakeUser
         return sprintf('Your username is %s', $this->username);
     }
 
-    public function setUsername($val)
+    public function setUsername($username)
     {
-        if (!is_string($val)) {
+        if (!is_string($username)) {
             throw new InvalidArgumentException('Username must be of type string');
         }
-        $this->username = $val;
+
+        $this->username = $username;
     }
 }
