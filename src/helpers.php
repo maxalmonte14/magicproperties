@@ -4,8 +4,8 @@
  * Returns the camel case version
  * of a given string.
  *
- * @param  string      $string
- * @param  string|null $prefix
+ * @param string      $string
+ * @param string|null $prefix
  *
  * @return string
  */
@@ -18,8 +18,8 @@ function toCamelCase($string, $prefix = null)
  * Returns the snake case version
  * of a given string.
  *
- * @param  string      $string
- * @param  string|null $prefix
+ * @param string      $string
+ * @param string|null $prefix
  *
  * @return string
  */

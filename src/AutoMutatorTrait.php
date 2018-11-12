@@ -5,7 +5,7 @@ namespace MagicProperties;
 use MagicProperties\Exceptions\InvalidPropertyCallException;
 
 /**
- * Allow access to a setter implicitly
+ * Allows access to a setter implicitly.
  */
 trait AutoMutatorTrait
 {

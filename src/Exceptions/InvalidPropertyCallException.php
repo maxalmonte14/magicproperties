@@ -2,7 +2,7 @@
 
 namespace MagicProperties\Exceptions;
 
-use \Exception;
+use Exception;
 
 /**
  * Exception thrown if a class that uses
@@ -22,6 +22,6 @@ class InvalidPropertyCallException extends Exception
      */
     public function __toString()
     {
-        return __CLASS__ . "'{$this->message}' in {$this->file}, ({$this->line})\n, {$this->getTraceAsString()}";
+        return __CLASS__."'{$this->message}' in {$this->file}, ({$this->line})\n, {$this->getTraceAsString()}";
     }
 }

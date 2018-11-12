@@ -2,8 +2,8 @@
 
 namespace Tests\Fakes;
 
-use MagicProperties\AutoMutatorTrait;
 use MagicProperties\AutoAccessorTrait;
+use MagicProperties\AutoMutatorTrait;
 
 class FakeUser
 {

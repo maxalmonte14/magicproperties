@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use Tests\Fakes\FakeUser;
 use PHPUnit\Framework\TestCase;
+use Tests\Fakes\FakeUser;
 
 class AutoAccessorTest extends TestCase
 {
