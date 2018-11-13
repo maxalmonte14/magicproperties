@@ -30,12 +30,14 @@ trait AutoAccessorTrait
     {
         if (!property_exists($this, $property)) {
             throw new InvalidPropertyCallException(
-                "You're trying to access to anundefined property {$property}.",
+                "You're trying to access to undefined property {$property}.",
                 InvalidPropertyCallException::UNDEFINED_PROPERTY
             );
         }
 
-        if (!in_array($property, $this->gettables) && is_null($getter = $this->getGetterName($property))) {
+        $getter = $this->getGetterName($property);
+
+        if (!in_array($property, $this->gettables) && is_null($getter)) {
             throw new InvalidPropertyCallException(
                 "Property {$property} is not accessible out of the class.",
                 InvalidPropertyCallException::NOT_ACCESSABLE_PROPERTY
