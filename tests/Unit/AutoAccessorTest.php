@@ -7,7 +7,6 @@ use Tests\Fakes\FakeUser;
 
 class AutoAccessorTest extends TestCase
 {
-
     private $fakeUser;
 
     public function setUp()
