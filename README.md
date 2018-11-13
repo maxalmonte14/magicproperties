@@ -1,11 +1,17 @@
 ## About MagicProperties
 
+[![StyleCI](https://github.styleci.io/repos/108140350/shield?branch=develop)](https://github.styleci.io/repos/108140350)
+[![Build Status](https://travis-ci.org/maxalmonte14/magicproperties.svg?branch=master)](https://travis-ci.org/maxalmonte14/magicproperties)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/badges/build.png?b=master)](https://scrutinizer-ci.com/g/maxalmonte14/magicproperties/build-status/master)
+
 MagicProperties is a little but powerful package that allows you call getters and setters implicitly in all objects you want, something like C# properties or Laravel accessors and mutators (for Eloquent ORM).
 
 ## Requirements
 
 ```
-PHP >= 5.4 || PHP >= 7.0
+PHP >= 7.0
 ```
 
 ## Installation
@@ -70,3 +76,32 @@ echo $user->username; // Returns maxalmonte14
 ```php
 echo $user->token; // An InvalidPropertyCallException is thrown!
 ```
+
+___
+
+Since version 2.0 your getters are called automatic even if you don't register your properties in the `gettables` array. The following example should work as expected.
+
+```php
+public function __construct()
+{
+    $this->settables = ['username'];
+}
+
+public function getUsername()
+{
+    return strtolower($this->username);
+}
+
+public function setUsername($newUsername)
+{
+    $this->username = strtoupper($newUsername);
+}
+```
+
+```php
+$user = new User();
+$user->username = 'MaxAlmonte14'; // The value is set to MAXALMONTE14
+echo $user->username; // Returns maxalmonte14
+```
+
+The `gettables` array is still available for compatibility reasons, however could be removed in future versions.
